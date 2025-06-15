@@ -1384,14 +1384,14 @@ local menu do
 
                     clipboard.set(base64.encode( json.stringify(config:save()) ))
                     client.exec('playvol buttons\\button18 0.5')
-                    utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ Exported condition \f<ez>" .. name))
+                    utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ Exported condition \f<ez>" .. name))
                 end)
                 builder[name].import:set_callback(function(self)
                     local config = pui.setup(builder[name])
 
                     config:load(json.parse(base64.decode(clipboard.get())))
                     client.exec('playvol buttons\\button17 0.5')
-                    utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ Imported config for \f<ez>" .. name ..'\f<r> condition'))
+                    utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ Imported config for \f<ez>" .. name ..'\f<r> condition'))
                 end)
             end
 
@@ -1456,7 +1456,7 @@ local Config do
             table.insert(db.db.configs['Local'], {name, cfg or base64.encode(json.stringify(Config:save())) } )
             db.save()
             menu.Home.other.Local.name:set('')
-            utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>"..(cfg and 'Imported' or 'Created').." \f<r>config \f<ez>" .. name))
+            utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>"..(cfg and 'Imported' or 'Created').." \f<r>config \f<ez>" .. name))
         end
         update_box()
         menu.Home.aa.box:set(#db.db.configs['Local'] - 1)
@@ -1470,7 +1470,7 @@ local Config do
 
     menu.Home.aa.delete:set_callback(function()
         local val = menu.Home.aa.box:get()
-        utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>Deleted \f<r>config \f<ez>" .. get_config(val)))
+        utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>Deleted \f<r>config \f<ez>" .. get_config(val)))
 
         client.exec('playvol buttons\\button16 0.5')
         table.remove(db.db.configs['Local'], val + 1)
@@ -1485,7 +1485,7 @@ local Config do
         if menu.Home.other.Local.autoload_save:get("Save") then
             db.db.last.cfg = cfg
         end
-        utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>Updated \f<r>config \f<ez> ".. get_config()))
+        utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>Updated \f<r>config \f<ez> ".. get_config()))
 
         client.exec('playvol buttons\\button16 0.5')
         db.save()
@@ -1493,10 +1493,10 @@ local Config do
 
     menu.Home.aa.export:set_callback(function()
         local name, cfg = get_config()
-        local text = string.format('Rinnegan::%s::%s', name, cfg)
+        local text = string.format('Pouch::%s::%s', name, cfg)
         client.exec('playvol buttons\\button18 0.5')
         clipboard.set(text)
-        utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>Exported \f<r>config \f<ez>" .. name))
+        utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>Exported \f<r>config \f<ez>" .. name))
 
     end)
     
@@ -1505,7 +1505,7 @@ local Config do
         local decrypted = json.parse( base64.decode(config) )
         Config:load(decrypted, self.name == "Load AA" and "Antiaims" or nil)
         drag.on_config_load()
-        utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>Loaded"..(self.name == "Load AA" and " antiaim" or '').." \f<r>config \f<ez>" .. name))
+        utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>Loaded"..(self.name == "Load AA" and " antiaim" or '').." \f<r>config \f<ez>" .. name))
         client.exec('playvol buttons\\button17 0.5')
         if menu.Home.other.Local.autoload_save:get("Load") then
             db.db.last.cfg = base64.encode( json.stringify(Config:save()) )
@@ -1515,7 +1515,7 @@ local Config do
 
     menu.Home.other['Local'].import:set_callback(function()
         local text = clipboard.get()
-        local name, config = text:match("Rinnegan::([%s%S]+)::([%s%S]+)")
+        local name, config = text:match("Pouch::([%s%S]+)::([%s%S]+)")
         if not name or not config then return end
         create_config(name,config)
         load_config(menu.Home.aa.load)
@@ -1526,7 +1526,7 @@ local Config do
     if db.db.last.on and db.db.last.cfg then
         local decrypted = json.parse( base64.decode(db.db.last.cfg) )
         Config:load(decrypted)
-        utils.printc(pui.format("\f<r>[\f<ez>rinnegan\f<r>] ~ \f<ez>Loaded \f<r>last saved config"))
+        utils.printc(pui.format("\f<r>[\f<ez>Pouch\f<r>] ~ \f<ez>Loaded \f<r>last saved config"))
         
         client.exec('playvol buttons\\button17 0.5')
     end
@@ -1962,7 +1962,7 @@ local ragelogs do
             col = (utils.to_hex(col)):sub(1,6)
             pui.macros.col = '\a'..col
             utils.printc(pui.format(
-                "\f<r>[\f<col>rinnegan\f<r>] ~ Miss "..
+                "\f<r>[\f<col>Pouch\f<r>] ~ Miss "..
                 "\f<col>"..entity.get_player_name(e.target).."\f<r>'s "..
                 "\f<col>"..(hitgroups[e.hitgroup] or "?")..
                 "\f<r> due to \f<col>"..e.reason.."\f<r>"..
@@ -1984,7 +1984,7 @@ local ragelogs do
             pui.macros.col = '\a'..col
             local health = entity.get_prop(e.target, 'm_iHealth')
             utils.printc(pui.format(
-                "\f<r>[\f<col>rinnegan\f<r>] ~ Hit "..
+                "\f<r>[\f<col>Pouch\f<r>] ~ Hit "..
                 "\f<col>"..entity.get_player_name(e.target).."\f<r>'s "..
                 "\f<col>"..(hitgroups[e.hitgroup] or "?")..
                 (e.hitgroup ~= data.hitgroup and "\f<r>(\f<col>"..hitgroups[data.hitgroup].."\f<r>)" or '')..
@@ -2114,7 +2114,7 @@ local filter do
     menu.Features.console.on:set_callback(function(self)
         client.delay_call(0, function()
             cvar.con_filter_enable:set_int(self.value and 1 or 0)
-            cvar.con_filter_text:set_string(self.value and 'Rinnegan ['..version[1] ..']' or '')
+            cvar.con_filter_text:set_string(self.value and 'Pouch ['..version[1] ..']' or '')
         end)
     end, true)
     defer(function()
@@ -2873,7 +2873,7 @@ local shot_marker do
 end
 
 local clantag do
-    clantag = "Rinnegan"
+    clantag = "Pouch"
     local gs_clantag = function(text, indices)
         local text_anim = '                ' .. text .. '                '
         -- local server_time = globals.curtime()
@@ -3063,24 +3063,7 @@ local gamesense do
     menu.Features.gamesense.on:set_event('indicator', function() end)
 end
 
-local debug do
-    local render = function()
-        local elements = {
-            {"Rinnegan "..version[1]},
-            {"----------------------"},
-            {"Condition: "..lp.state},
-        }
-        y_add = 0
-        for a,b in pairs(elements) do
-            local text = b[1]:upper()
-            local measure = vector(renderer.measure_text('-', text))
-            renderer.text(100, screen.size.y*0.33   +y_add, 255,255,255,255, '-', 0, text)
-            y_add = y_add + measure.y
-        end
-    end
 
-    client.set_event_callback('paint', render)
-end
 
 local bomb do
     bomb = {}
