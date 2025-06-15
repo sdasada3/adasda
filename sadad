@@ -449,7 +449,7 @@ local menu do
         }
     end
 
-    local tab = tabs.fl:combobox("\vRinnegan ["..version[1].."]", {"Home", "Features", "Antiaims"}, false)
+    local tab = tabs.fl:combobox("\vPouch ["..version[1].."]", {"Home", "Features", "Antiaims"}, false)
     local tab_label = tabs.fl:label("\a373737FF‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾")
 
     local setup = tabs.aa:combobox("Setup", {
@@ -675,34 +675,13 @@ local menu do
 
         Features.label1 = create.label(tabs.aa, "Visuals", true)
 
-        local watermark = {} do
-            watermark = create.element(tabs.aa, "Watermark")
-            watermark.drag = create.drag("watermark", {screen.center.x, screen.size.y-100})
-            watermark.on:set_enabled(false)
-            watermark.on:set(true)
-            watermark.candy = tabs.aa:checkbox("Candy")
-            watermark.color = create.color(tabs.aa, 'watermark', { {175,175,255,185}, {0,0,0,200} },{"Text", "Background"})
-            watermark.elements = tabs.aa:multiselect('\nwatermark.elements', {"Nickname", "FPS", "Ping", "Time"})
-            watermark.lock = tabs.aa:combobox('\nwatermark.lock', {"Bottom-Center","Upper-Center","Upper-Right","Bottom-Right","Upper-Left","Bottom-Left", "None"})
-            watermark.custom = tabs.aa:textbox("custom name watermark")
-            watermark.used = tabs.aa:checkbox("Used elements?")
-            watermark.used:depend({setup, 'xdadadsadadx'})
-            watermark.elements:set_callback(function()
-                watermark.used:set(true)
-            end)
-            if not watermark.used.value then
-                watermark.elements:set({"Nickname", "FPS", "Ping", "Time"})
-            end
-
-            watermark.custom:depend({watermark.elements, "Nickname"})
-            Features.watermark = watermark
-        end
+        
 
         local crosshair = {} do
             crosshair = create.element(tabs.aa, "Crosshair Indicator")
             local data = {} do
-                data.always = {"Rinnegan", "Conditions"}
-                data.elements = {"Rinnegan", "Conditions", "Double Tap", "Hide Shots", "Min. Damage", "Hitchance","Body Aim", "Safe Points", "Ping Spike", "Freestanding", "Flicking"}
+                data.always = {"Pouch", "Conditions"}
+                data.elements = {"Pouch", "Conditions", "Double Tap", "Hide Shots", "Min. Damage", "Hitchance","Body Aim", "Safe Points", "Ping Spike", "Freestanding", "Flicking"}
                 data.list = {table.unpack(data.elements)}
                 data.names = {
                     ["Double Tap"] = "DOUBLETAP",
@@ -1638,66 +1617,6 @@ local lp do
     end)
 end
 
-local watermark do 
-
-    local fps,last,avg_fps = math.floor(1.0 / globals.frametime()),globals.curtime(),0
-    local last2 = last
-    local update
-    local reset
-
-    update = function()
-        client.delay_call(1, update)
-
-        fps =  math.floor(avg_fps)
-    end update()
-
-    reset = function()
-        client.delay_call(10, reset)
-        avg_fps = 0
-    end reset() 
-
-    local render = drag.register(menu.Features.watermark.drag, vector(330, 25), "watermark", function(self)
-
-        local text do
-            local new_frame = 1.0 / math.max(0.0001, globals.frametime())
-            avg_fps = avg_fps <= 0.0 and new_frame or (avg_fps * 0.9 + new_frame * 0.1)
-
-            local ping = string.format('%.0f', client.latency()*1000)
-        
-            local hours, minutes = client.system_time()
-            local time = string.format("%02d:%02d", hours,minutes)
-
-            local custom = menu.Features.watermark.custom:get()
-
-            text = '  $  rinnegan / '..version[1] ..'  $  '..
-            (menu.Features.watermark.elements:get("Nickname") and (custom ~= '' and custom or (_USER_NAME or 'admin'))..'  $  ' or '')..
-            (menu.Features.watermark.elements:get("FPS") and fps..' fps  $  ' or '')..
-            (menu.Features.watermark.elements:get("Ping") and ping..' ms  $  ' or '')..
-            (menu.Features.watermark.elements:get("Time") and time..'  $  ' or '')
-
-        end
-
-        local measure = vector(renderer.measure_text('d', text))
-        self.position.y = math.floor(menu.Features.watermark.lock.value == "None" and self.position.y or string.match(menu.Features.watermark.lock.value, 'Upper') and 10 or screen.size.y-measure.y-10)
-        self.position.x = math.floor( menu.Features.watermark.lock.value == "None" and self.position.x or
-            (menu.Features.watermark.lock.value == 'Upper-Right' or menu.Features.watermark.lock.value == 'Bottom-Right') and screen.size.x - measure.x - 20 or
-            (menu.Features.watermark.lock.value == 'Upper-Center' or menu.Features.watermark.lock.value == 'Bottom-Center') and screen.center.x - measure.x * 0.5 or 20
-        )
-
-        self.size.x = measure.x
-        self.size.y = measure.y+6
-
-        local w = colors['watermark']["Background"]
-        local t = colors['watermark']["Text"]
-
-        utils.rectangle(self.position.x,self.position.y, self.size.x, self.size.y, w.r,w.g,w.b,w.a, 5)
-        renderer.text(self.position.x, self.position.y + 2, t.r,t.g,t.b,math.max(t.a, 75), 'd', 0, menu.Features.watermark.candy.value and gradient.animated_gradient_text(text, gradient.table, 20/#gradient.table, 1) or text)
-    end, nil, false)
-
-    client.set_event_callback('paint', function()
-        render:update()
-    end)
-end
 
 local hitchance do
     local custom = {
