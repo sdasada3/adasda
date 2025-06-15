@@ -1674,7 +1674,7 @@ local crosshair do
 
         local version1 = colors['crosshair']['Version']:clone()
         version1.a = version1.a * transparency
-        local rin = colors['crosshair']['Rinnegan']:clone()
+        local rin = colors['crosshair']['Pouch']:clone()
         rin.a = math.max(127, rin.a * transparency)
         local cond = colors['crosshair']['Conditions']:clone()
         cond.a = cond.a * transparency
@@ -1682,8 +1682,8 @@ local crosshair do
         menu.Features.crosshair.settings['Rinnegan'].container.candy:get()
         local elements = {
             -- {"Rinnegan", true, gradient.animated_gradient_text(text, gradient.table, (#gradient.table/5)/#gradient.table)},
-            {"Rinnegan", true, 
-            (menu.Features.crosshair.settings['Rinnegan'].container.candy.value and "rinnegan ["..version[1].."]" or ("\a"..utils.to_hex(rin).."rinnegan \a"..utils.to_hex(version1) .."["..version[1].."]"))},
+            {"Pouch", true, 
+            (menu.Features.crosshair.settings['Pouch'].container.candy.value and "pouch ["..version[1].."]" or ("\a"..utils.to_hex(rin).."pouch \a"..utils.to_hex(version1) .."["..version[1].."]"))},
             {"Conditions", true, menu.Features.crosshair.settings['Conditions'].container.candy.value and lp.state or"\a"..utils.to_hex(cond)..lp.state},
             {"Double Tap", refs2.dt.value and refs2.dt:get_hotkey()},
             {"Hide Shots", refs.other.osaa.value and refs.other.osaa:get_hotkey()},
