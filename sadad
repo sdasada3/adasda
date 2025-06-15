@@ -1679,7 +1679,7 @@ local crosshair do
         local cond = colors['crosshair']['Conditions']:clone()
         cond.a = cond.a * transparency
 
-        menu.Features.crosshair.settings['Rinnegan'].container.candy:get()
+        menu.Features.crosshair.settings['Pouch'].container.candy:get()
         local elements = {
             -- {"Rinnegan", true, gradient.animated_gradient_text(text, gradient.table, (#gradient.table/5)/#gradient.table)},
             {"Pouch", true, 
