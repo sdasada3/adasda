@@ -1426,7 +1426,6 @@ local function hide_original_menu(state)
     ui.set_visible(ref.freestand[2], state)
 end
 
-feelsense_checker_access = false
 local enabled = feelsense.main.enable_lua
 local aa_tab = {feelsense.main.tab, "Anti~Aim"}
 local visual_tab = {feelsense.main.tab, "Visuals"}
